@@ -66,11 +66,6 @@ class UserController {
     }
   }
 
-  // static async userData(req, res) {
-  //   console.log(req.userId);
-  //   res.status(200).json({ message: `display user data` });
-  // }
-
   static generateToken(id) {
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });
   }

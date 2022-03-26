@@ -31,6 +31,7 @@ export default function Dashboard(props) {
   }, [token]);
 
   //Delete Goal Logic
+
   const deleteGoal = async (goalId) => {
     try {
       setLoading(true);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/dashboard";
 import Login from "./pages/login";
@@ -9,18 +9,14 @@ import authService from "./services";
 import { Slide, ToastContainer } from "react-toastify";
 
 export default function App() {
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState(
+    localStorage.getItem("user") ? JSON.parse(localStorage.user) : ""
+  );
 
   const onLogout = () => {
     setUser("");
     authService.logout();
   };
-
-  useEffect(() => {
-    if (localStorage.user) {
-      setUser(JSON.parse(localStorage.user));
-    }
-  }, []);
 
   return (
     <div className="container">

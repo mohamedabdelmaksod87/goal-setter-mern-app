@@ -49,9 +49,7 @@ export default function Register(props) {
           errors[eachErr.param] = eachErr.msg;
         }
       } else {
-        toast.error(err.msg, {
-          autoClose: false,
-        });
+        toast.error(err.msg);
       }
       setvalidationErr(errors);
     }
