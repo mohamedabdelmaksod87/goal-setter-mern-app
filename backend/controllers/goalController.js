@@ -5,16 +5,10 @@ class GoalsController {
   static async getGoals(req, res) {
     try {
       const getResponse = await GoalsModel.getUserGoals(req.userId);
-      if (getResponse.length > 0) {
-        res.status(200).json(getResponse);
-      } else {
-        res.status(200).json({ message: `No Goals Exist` });
-      }
+      res.status(200).json(getResponse);
     } catch (err) {
       console.log(err);
-      res
-        .status(500)
-        .json({ message: `Something went wrong, please try again` });
+      res.status(500).json({ msg: `Couldn't display goals, Please try again` });
     }
   }
 
@@ -26,12 +20,14 @@ class GoalsController {
           req.userId
         );
         if (setResponse.insertedId && setResponse.acknowledged) {
-          res.status(201).json(setResponse);
+          res
+            .status(201)
+            .json({ _id: setResponse.insertedId, text: req.body.goal });
         }
       } catch (err) {
         console.log(err);
         res.status(500).json({
-          message: `Something went wrong, Goal couldn't be added`,
+          msg: `Something went wrong, Failed to add Goal`,
         });
       }
     } else {
@@ -70,17 +66,15 @@ class GoalsController {
         req.userId
       );
       if (deleteResponse.deletedCount === 1) {
-        res
-          .status(200)
-          .json({ status: "Goal deleted successfully", id: req.params.id });
+        res.status(200).json({ id: req.params.id });
       } else if (deleteResponse.deletedCount === 0) {
-        res.status(400).json({ error: "Goal was not found" });
+        res.status(400).json({ msg: "Goal was not found" });
       }
     } catch (e) {
       console.log(e);
       res
         .status(500)
-        .json({ error: "Something went wrong, Goal couldn't be deleted" });
+        .json({ msg: "Something went wrong, Failed to delete Goal" });
     }
   }
 }

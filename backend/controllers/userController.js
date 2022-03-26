@@ -13,7 +13,7 @@ class UserController {
         if (userExits) {
           return res
             .status(400)
-            .json({ msg: `User already exists, Please Login` });
+            .json({ msg: `User already exists, please Login` });
         }
         //2- hash password
         const salt = await bcrypt.genSalt(10);
@@ -27,14 +27,13 @@ class UserController {
         if (userResponse.insertedId && userResponse.acknowledged) {
           // 201 status means Ok & something was created
           res.status(201).json({
-            user: userResponse,
-            msg: `user created successfully`,
+            name: name,
             token: UserController.generateToken(userResponse.insertedId),
           });
         }
       } catch (err) {
         console.log(err);
-        res.status(500).json({ msg: `somthing went wrong` });
+        res.status(500).json({ msg: `Somthing went wrong, Please try again` });
       }
     } else {
       res.status(400).json(validationResult(req).array());
@@ -43,6 +42,7 @@ class UserController {
 
   static async loginUser(req, res) {
     const { email, password } = req.body;
+
     if (validationResult(req).isEmpty()) {
       try {
         //1- match email
@@ -53,24 +53,23 @@ class UserController {
         //2- match password
         (await bcrypt.compare(password, user.password))
           ? res.status(200).json({
-              msg: `Welcome ${user.name}`,
-              data: user,
+              name: user.name,
               token: UserController.generateToken(user._id),
             })
           : res.status(400).json({ msg: `Password is not correct` });
       } catch (err) {
         console.log(err);
-        res.status(500).json({ msg: `somthing went wrong` });
+        res.status(500).json({ msg: `Somthing went wrong, Please try again` });
       }
     } else {
       res.status(400).json(validationResult(req).array());
     }
   }
 
-  static async userData(req, res) {
-    console.log(req.userId);
-    res.status(200).json({ message: `display user data` });
-  }
+  // static async userData(req, res) {
+  //   console.log(req.userId);
+  //   res.status(200).json({ message: `display user data` });
+  // }
 
   static generateToken(id) {
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });

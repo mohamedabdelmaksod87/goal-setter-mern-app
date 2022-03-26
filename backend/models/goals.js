@@ -9,7 +9,7 @@ class GoalsModel {
       return await client
         .db(process.env.DB_NAME)
         .collection("goals")
-        .find({ userId: ObjectId(userId) })
+        .find({ userId: ObjectId(userId) }, { projection: { userId: 0 } })
         .toArray();
     } catch (err) {
       console.log(`found error ${err}`);

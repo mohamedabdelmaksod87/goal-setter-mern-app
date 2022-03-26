@@ -12,6 +12,6 @@ router
   .route("/login")
   .post(Validation.loginValidation, UserController.loginUser);
 
-router.route("/me").get(Protect.chkToken, UserController.userData);
+// router.route("/me").get(Protect.chkToken, UserController.userData);
 
 module.exports = router;

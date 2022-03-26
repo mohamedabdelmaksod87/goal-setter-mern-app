@@ -1,13 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FaUser } from "react-icons/fa";
+import authService from "../services";
+import { useNavigate } from "react-router-dom";
+import { toast, Slide, ToastContainer } from "react-toastify";
+import Spinner from "../components/spinner";
 
-export default function Register() {
-  const [formData, setFormData] = useState({
+export default function Register(props) {
+  const { setUser } = props;
+  const navigate = useNavigate();
+  const initialData = {
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
-  });
+  };
+  const [formData, setFormData] = useState(initialData);
+  const [loading, setLoading] = useState(false);
+  const [validationErr, setvalidationErr] = useState({});
   const { name, email, password, confirmPassword } = formData;
 
   const onChange = (eve) => {
@@ -17,12 +26,48 @@ export default function Register() {
     setFormData(registerData);
   };
 
-  const onSubmit = (eve) => {
-    eve.preventDefault();
+  const onSubmit = async (eve) => {
+    let errors = {};
+    try {
+      eve.preventDefault();
+      if (password !== confirmPassword) {
+        toast.error(`Passwords are not matched`);
+      } else {
+        setLoading(true);
+        let registerData = { name, email, password };
+        const userData = await authService.register(registerData);
+        setLoading(false);
+        setvalidationErr(errors);
+        setUser(userData);
+        setFormData(initialData);
+        navigate("/", { replace: true });
+      }
+    } catch (err) {
+      setLoading(false);
+      if (Array.isArray(err)) {
+        for (const eachErr of err) {
+          errors[eachErr.param] = eachErr.msg;
+        }
+      } else {
+        toast.error(err.msg, {
+          autoClose: false,
+        });
+      }
+      setvalidationErr(errors);
+    }
   };
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <React.Fragment>
+      <ToastContainer
+        transition={Slide}
+        theme="colored"
+        position="top-center"
+      />
       <section className="heading">
         <h3>
           <FaUser />
@@ -36,40 +81,45 @@ export default function Register() {
             <input
               type="text"
               className="form-control"
-              id="name"
               name="name"
               value={name}
               placeholder="Enter your Name"
               onChange={onChange}
             />
+            {validationErr.name && (
+              <h4 className="error">{validationErr.name}</h4>
+            )}
           </div>
           <div className="form-group">
             <input
               type="email"
               className="form-control"
-              id="email"
               name="email"
               value={email}
               placeholder="Enter your Email"
               onChange={onChange}
             />
+            {validationErr.email && (
+              <h4 className="error">{validationErr.email}</h4>
+            )}
           </div>
           <div className="form-group">
             <input
               type="password"
               className="form-control"
-              id="password"
               name="password"
               value={password}
               placeholder="Enter your Password"
               onChange={onChange}
             />
+            {validationErr.password && (
+              <h4 className="error">{validationErr.password}</h4>
+            )}
           </div>
           <div className="form-group">
             <input
               type="password"
               className="form-control"
-              id="confirmPassword"
               name="confirmPassword"
               value={confirmPassword}
               placeholder="Confirm Password"

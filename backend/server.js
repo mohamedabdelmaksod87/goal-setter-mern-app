@@ -13,7 +13,7 @@ app.use("/api/goals", goalRouter);
 app.use("/api/users", userRouter);
 
 app.use("*", (req, res) => {
-  res.status(404).json({ error: "requested URL can not be found" });
+  res.status(404).json({ msg: "requested URL can not be found" });
 });
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
