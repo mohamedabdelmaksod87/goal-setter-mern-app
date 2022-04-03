@@ -61,7 +61,7 @@ export default function Login(props) {
       />
       <section className="heading">
         <h3>
-          <FaSignInAlt />
+          <FaSignInAlt className="signin-icon" />
           Login
         </h3>
         <p>Login & Start Setting Goals</p>
@@ -77,6 +77,7 @@ export default function Login(props) {
               value={email}
               placeholder="Enter your Email"
               onChange={onChange}
+              required
             />
             {validationErr.email && (
               <h4 className="error">{validationErr.email}</h4>
@@ -91,6 +92,7 @@ export default function Login(props) {
               value={password}
               placeholder="Enter your Password"
               onChange={onChange}
+              required
             />
             {validationErr.password && (
               <h4 className="error">{validationErr.password}</h4>

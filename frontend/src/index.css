@@ -217,3 +217,13 @@ h3 {
 .error {
   background-color: red;
 }
+
+.signin-icon {
+  margin-right: 8px;
+  position: relative;
+  top: 5px;
+}
+
+.register-icon {
+  margin-right: 8px;
+}

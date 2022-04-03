@@ -30,18 +30,13 @@ export default function Register(props) {
     let errors = {};
     try {
       eve.preventDefault();
-      if (password !== confirmPassword) {
-        toast.error(`Passwords are not matched`);
-      } else {
-        setLoading(true);
-        let registerData = { name, email, password };
-        const userData = await authService.register(registerData);
-        setLoading(false);
-        setvalidationErr(errors);
-        setUser(userData);
-        setFormData(initialData);
-        navigate("/", { replace: true });
-      }
+      setLoading(true);
+      const userData = await authService.register(formData);
+      setLoading(false);
+      setvalidationErr(errors);
+      setUser(userData);
+      setFormData(initialData);
+      navigate("/", { replace: true });
     } catch (err) {
       setLoading(false);
       if (Array.isArray(err)) {
@@ -68,7 +63,7 @@ export default function Register(props) {
       />
       <section className="heading">
         <h3>
-          <FaUser />
+          <FaUser className="register-icon" />
           Register
         </h3>
         <p>Please create an account</p>
@@ -83,6 +78,7 @@ export default function Register(props) {
               value={name}
               placeholder="Enter your Name"
               onChange={onChange}
+              required
             />
             {validationErr.name && (
               <h4 className="error">{validationErr.name}</h4>
@@ -96,6 +92,7 @@ export default function Register(props) {
               value={email}
               placeholder="Enter your Email"
               onChange={onChange}
+              required
             />
             {validationErr.email && (
               <h4 className="error">{validationErr.email}</h4>
@@ -109,6 +106,7 @@ export default function Register(props) {
               value={password}
               placeholder="Enter your Password"
               onChange={onChange}
+              required
             />
             {validationErr.password && (
               <h4 className="error">{validationErr.password}</h4>
@@ -122,7 +120,11 @@ export default function Register(props) {
               value={confirmPassword}
               placeholder="Confirm Password"
               onChange={onChange}
+              required
             />
+            {validationErr.confirmPassword && (
+              <h4 className="error">{validationErr.confirmPassword}</h4>
+            )}
           </div>
           <div className="form-group">
             <button type="submit" className="btn btn-block">

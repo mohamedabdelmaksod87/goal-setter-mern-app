@@ -44,10 +44,10 @@ export default function GoalForm(props) {
           <input
             type="text"
             className="form-control"
-            name="goal"
             value={goal}
             placeholder="Enter your Goal"
             onChange={(e) => setGoal(e.target.value)}
+            required
           />
           {validationErr.goal && (
             <h4 className="error">{validationErr.goal}</h4>

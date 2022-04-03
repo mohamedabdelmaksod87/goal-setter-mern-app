@@ -10,7 +10,9 @@ class Validation {
       .trim()
       .not()
       .isEmpty()
-      .withMessage(`Goal field must not be empty`)
+      .withMessage(`Goal field can not be empty`)
+      .isLength({ max: 100 })
+      .withMessage("Goal field can't exceed max length of 100 Characters")
       .escape()
       .run(req);
     next();
@@ -26,7 +28,7 @@ class Validation {
       .isEmail()
       .withMessage("Invalid Email address")
       .isLength({ max: 100 })
-      .withMessage("Email must be 100 characters at most")
+      .withMessage("Email field can't exceed max length of 100 Characters")
       .run(req);
   }
 
@@ -37,10 +39,10 @@ class Validation {
       .isString()
       .withMessage(`Password field must be string`)
       .trim()
-      .isLength({ min: 3 })
-      .withMessage("Password must be 3 characters at least")
+      .isLength({ min: 5 })
+      .withMessage("Password must be 5 characters at least")
       .isLength({ max: 20 })
-      .withMessage("Password must be 20 characters at most")
+      .withMessage("Password field can't exceed max length of 20 Characters")
       .not()
       .contains(" ")
       .withMessage("White spaces are not allowed")
@@ -56,6 +58,7 @@ class Validation {
   }
 
   static async registerValidation(req, res, next) {
+    const { password } = req.body;
     const emailCheck = Validation.chkEmail(req);
     const passwordCheck = Validation.chkPassword(req);
     const nameCheck = check("name")
@@ -66,13 +69,22 @@ class Validation {
       .trim()
       .not()
       .isEmpty()
-      .withMessage(`Name field must not be empty`)
+      .withMessage(`Name field can not be empty`)
       .isLength({ max: 30 })
-      .withMessage("Name must be 30 characters at most")
+      .withMessage("Name field can't exceed max length of 30 Characters")
       .escape()
       .run(req);
+    const matchPasswordCheck = check("confirmPassword")
+      .equals(password)
+      .withMessage("Passwords are not matched")
+      .run(req);
 
-    await Promise.all([nameCheck, emailCheck, passwordCheck]);
+    await Promise.all([
+      nameCheck,
+      emailCheck,
+      passwordCheck,
+      matchPasswordCheck,
+    ]);
     next();
   }
 }

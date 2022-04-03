@@ -9,7 +9,7 @@ export default function Dashboard(props) {
   const { user } = props;
   const { token, name } = user;
   const [userGoals, setUserGoals] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(user ? true : false);
 
   useEffect(() => {
     if (token) {
@@ -31,7 +31,6 @@ export default function Dashboard(props) {
   }, [token]);
 
   //Delete Goal Logic
-
   const deleteGoal = async (goalId) => {
     try {
       setLoading(true);
