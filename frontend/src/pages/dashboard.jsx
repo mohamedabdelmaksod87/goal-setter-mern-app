@@ -4,12 +4,15 @@ import goalsService from "../goalsServices";
 import Spinner from "../components/spinner";
 import { toast } from "react-toastify";
 import GoalItem from "../components/goalItem";
+import UpdatePopup from "../components/updatePopup";
 
 export default function Dashboard(props) {
   const { user } = props;
   const { token, name } = user;
   const [userGoals, setUserGoals] = useState([]);
   const [loading, setLoading] = useState(user ? true : false);
+  const [isPopup, setIspopup] = useState(false);
+  const [targetGoal, setTargetGoal] = useState(null);
 
   useEffect(() => {
     if (token) {
@@ -47,6 +50,12 @@ export default function Dashboard(props) {
     }
   };
 
+  //open popup
+  const togglePopup = (goalIndex) => {
+    setIspopup(!isPopup);
+    setTargetGoal(goalIndex);
+  };
+
   if (loading) {
     return <Spinner />;
   }
@@ -69,11 +78,13 @@ export default function Dashboard(props) {
           <section className="content">
             {userGoals.length > 0 ? (
               <div className="goals">
-                {userGoals.map((goal) => (
+                {userGoals.map((goal, index) => (
                   <GoalItem
                     key={goal._id}
                     goal={goal}
                     deleteGoal={deleteGoal}
+                    togglePopup={togglePopup}
+                    index={index}
                   />
                 ))}
               </div>
@@ -81,6 +92,15 @@ export default function Dashboard(props) {
               <h3>You have not set any goals</h3>
             )}
           </section>
+          {isPopup && (
+            <UpdatePopup
+              togglePopup={togglePopup}
+              userGoals={userGoals}
+              setUserGoals={setUserGoals}
+              targetGoal={targetGoal}
+              token={token}
+            />
+          )}
         </>
       ) : (
         <h2>Please Login or Register to Start Setting Goals</h2>

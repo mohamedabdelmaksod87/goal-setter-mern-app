@@ -8,7 +8,9 @@ class GoalsController {
       res.status(200).json(getResponse);
     } catch (err) {
       console.log(err);
-      res.status(500).json({ msg: `Couldn't display goals, Please try again` });
+      res
+        .status(500)
+        .json({ msg: `Something went wrong, Failed to display Goal` });
     }
   }
 
@@ -44,14 +46,14 @@ class GoalsController {
           req.userId
         );
         if (updateResponse.matchedCount === 1) {
-          res.status(200).json({ status: "Goal updated successfully" });
+          res.status(200).json({ msg: "Goal updated successfully" });
         } else if (updateResponse.matchedCount === 0) {
-          res.status(400).json({ error: "Goal was not found" });
+          res.status(400).json({ msg: "Goal was not found" });
         }
       } catch (e) {
         console.log(e);
         res.status(500).json({
-          error: "Something went wrong, Goal couldn't be updated",
+          msg: "Something went wrong, Failed to update Goal",
         });
       }
     } else {

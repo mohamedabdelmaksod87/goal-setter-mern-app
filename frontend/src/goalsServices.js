@@ -46,6 +46,22 @@ const deleteGoal = async (goalId, token) => {
     throw err.response.data;
   }
 };
-const goalsService = { createGoal, getGoals, deleteGoal };
+
+//Update User Goal
+const updateGoal = async (goal, goalId, token) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await axios.put(`${API_URL}${goalId}`, goal, config);
+    console.log(response.data);
+    return response.data;
+  } catch (err) {
+    throw err.response.data;
+  }
+};
+const goalsService = { createGoal, getGoals, deleteGoal, updateGoal };
 
 export default goalsService;
