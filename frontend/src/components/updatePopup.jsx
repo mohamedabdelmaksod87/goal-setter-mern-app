@@ -59,7 +59,7 @@ export default function UpdatePopup(props) {
                 value={newGoal}
                 placeholder="Enter your Goal"
                 onChange={(e) => setNewGoal(e.target.value)}
-                // required
+                required
               />
               {validationErr.goal && (
                 <h4 className="error">{validationErr.goal}</h4>

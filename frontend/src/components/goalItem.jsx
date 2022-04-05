@@ -5,16 +5,22 @@ export default function GoalItem(props) {
   return (
     <div className="goal">
       <h2>{goal.text}</h2>
-      <button className="icon" title="Edit" onClick={() => togglePopup(index)}>
-        <FaEdit />
-      </button>
-      <button
-        onClick={() => deleteGoal(goal._id)}
-        className="icon"
-        title="Delete"
-      >
-        <FaTrash />
-      </button>
+      <div className="icon-box">
+        <button
+          className="icon"
+          title="Edit"
+          onClick={() => togglePopup(index)}
+        >
+          <FaEdit />
+        </button>
+        <button
+          onClick={() => deleteGoal(goal._id)}
+          className="icon"
+          title="Delete"
+        >
+          <FaTrash />
+        </button>
+      </div>
     </div>
   );
 }
