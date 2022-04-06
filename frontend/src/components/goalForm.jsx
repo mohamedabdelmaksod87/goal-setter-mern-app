@@ -17,9 +17,9 @@ export default function GoalForm(props) {
       const newGoal = await goalsService.createGoal({ goal: goal }, token);
       setvalidationErr(errors);
       setGoal("");
+      setLoading(false);
       toast.success("Goal Added Successfully");
       setUserGoals([...userGoals, newGoal]);
-      setLoading(false);
     } catch (err) {
       setLoading(false);
       if (Array.isArray(err)) {
