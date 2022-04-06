@@ -10,7 +10,7 @@ export default function Dashboard(props) {
   const { user } = props;
   const { token, name } = user;
   const [userGoals, setUserGoals] = useState([]);
-  const [loading, setLoading] = useState(user ? true : false);
+  const [loading, setLoading] = useState(false);
   const [isPopup, setIspopup] = useState(false);
   const [targetGoal, setTargetGoal] = useState(null);
 

@@ -56,7 +56,6 @@ const updateGoal = async (goal, goalId, token) => {
       },
     };
     const response = await axios.put(`${API_URL}${goalId}`, goal, config);
-    console.log(response.data);
     return response.data;
   } catch (err) {
     throw err.response.data;
