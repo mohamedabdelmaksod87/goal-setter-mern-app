@@ -19,9 +19,9 @@ export default function UpdatePopup(props) {
         userGoals[targetGoal]._id,
         token
       );
-      setLoading(false);
       setNewGoal("");
       setvalidationErr(errors);
+      setLoading(false);
       togglePopup(null);
       toast.success("Goal Updated Successfully");
       let updatedGoals = [...userGoals];

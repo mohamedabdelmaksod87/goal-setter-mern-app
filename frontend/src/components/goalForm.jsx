@@ -15,11 +15,11 @@ export default function GoalForm(props) {
       eve.preventDefault();
       setLoading(true);
       const newGoal = await goalsService.createGoal({ goal: goal }, token);
-      setLoading(false);
       setvalidationErr(errors);
       setGoal("");
       toast.success("Goal Added Successfully");
       setUserGoals([...userGoals, newGoal]);
+      setLoading(false);
     } catch (err) {
       setLoading(false);
       if (Array.isArray(err)) {
