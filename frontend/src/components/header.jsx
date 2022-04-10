@@ -1,8 +1,16 @@
 import { FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import UserContext from "../context/userContext";
+import authService from "./../services";
 
-export default function Header(props) {
-  const { user, onLogout } = props;
+export default function Header() {
+  const { user, setUser } = useContext(UserContext);
+
+  const onLogout = () => {
+    setUser("");
+    authService.logout();
+  };
 
   return (
     <header className="header">

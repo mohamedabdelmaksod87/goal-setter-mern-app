@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import { useState, useContext } from "react";
 import { FaSignInAlt } from "react-icons/fa";
 import authService from "../services";
 import { useNavigate } from "react-router-dom";
-import { toast, Slide, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import Spinner from "../components/spinner";
+import UserContext from "../context/userContext";
 
-export default function Login(props) {
-  const { setUser } = props;
+export default function Login() {
+  const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const initialData = {
     email: "",
@@ -53,12 +54,7 @@ export default function Login(props) {
   }
 
   return (
-    <React.Fragment>
-      <ToastContainer
-        transition={Slide}
-        theme="colored"
-        position="top-center"
-      />
+    <>
       <section className="heading">
         <h3>
           <FaSignInAlt className="signin-icon" />
@@ -105,6 +101,6 @@ export default function Login(props) {
           </div>
         </form>
       </section>
-    </React.Fragment>
+    </>
   );
 }

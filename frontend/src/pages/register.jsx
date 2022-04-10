@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import { useState, useContext } from "react";
 import { FaUser } from "react-icons/fa";
 import authService from "../services";
 import { useNavigate } from "react-router-dom";
-import { toast, Slide, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import Spinner from "../components/spinner";
+import UserContext from "../context/userContext";
 
-export default function Register(props) {
-  const { setUser } = props;
+export default function Register() {
+  const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const initialData = {
     name: "",
@@ -55,12 +56,7 @@ export default function Register(props) {
   }
 
   return (
-    <React.Fragment>
-      <ToastContainer
-        transition={Slide}
-        theme="colored"
-        position="top-center"
-      />
+    <>
       <section className="heading">
         <h3>
           <FaUser className="register-icon" />
@@ -133,6 +129,6 @@ export default function Register(props) {
           </div>
         </form>
       </section>
-    </React.Fragment>
+    </>
   );
 }

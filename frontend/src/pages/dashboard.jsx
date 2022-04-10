@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import GoalForm from "../components/goalForm";
 import goalsService from "../goalsServices";
 import Spinner from "../components/spinner";
 import { toast } from "react-toastify";
 import GoalItem from "../components/goalItem";
 import UpdatePopup from "../components/updatePopup";
+import UserContext from "../context/userContext";
 
-export default function Dashboard(props) {
-  const { user } = props;
+export default function Dashboard() {
+  const { user } = useContext(UserContext);
   const { token, name } = user;
   const [userGoals, setUserGoals] = useState([]);
   const [loading, setLoading] = useState(user ? true : false);
