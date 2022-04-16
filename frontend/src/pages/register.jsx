@@ -3,11 +3,12 @@ import { FaUser } from "react-icons/fa";
 import authService from "../services";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Spinner from "../components/spinner";
 import UserContext from "../context/userContext";
+import LoadingContext from "../context/appLoadingContext";
 
 export default function Register() {
   const { setUser } = useContext(UserContext);
+  const { setLoading } = useContext(LoadingContext);
   const navigate = useNavigate();
   const initialData = {
     name: "",
@@ -16,7 +17,6 @@ export default function Register() {
     confirmPassword: "",
   };
   const [formData, setFormData] = useState(initialData);
-  const [loading, setLoading] = useState(false);
   const [validationErr, setvalidationErr] = useState({});
   const { name, email, password, confirmPassword } = formData;
 
@@ -33,7 +33,6 @@ export default function Register() {
       eve.preventDefault();
       setLoading(true);
       const userData = await authService.register(formData);
-      setLoading(false);
       setvalidationErr(errors);
       setUser(userData);
       setFormData(initialData);
@@ -50,10 +49,6 @@ export default function Register() {
       setvalidationErr(errors);
     }
   };
-
-  if (loading) {
-    return <Spinner />;
-  }
 
   return (
     <>

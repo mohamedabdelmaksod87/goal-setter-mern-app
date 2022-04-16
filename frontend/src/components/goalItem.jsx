@@ -1,7 +1,6 @@
 import { FaTrash, FaEdit } from "react-icons/fa";
 
-export default function GoalItem(props) {
-  const { goal, deleteGoal, togglePopup, index } = props;
+export default function GoalItem({ goal, deleteGoal, togglePopup, index }) {
   return (
     <div className="goal">
       <h2>{goal.text}</h2>

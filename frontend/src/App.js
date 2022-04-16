@@ -6,8 +6,13 @@ import Header from "./components/header";
 import NotFound from "./pages/notFound";
 import { Slide, ToastContainer } from "react-toastify";
 import { UserProvider } from "./context/userContext";
+import LoadingContext from "./context/appLoadingContext";
+import { useContext } from "react";
+import Spinner from "./components/spinner";
 
 export default function App() {
+  const { loading } = useContext(LoadingContext);
+
   return (
     <div className="container">
       <UserProvider>
@@ -19,6 +24,7 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </UserProvider>
+      {loading && <Spinner />}
       <ToastContainer
         transition={Slide}
         theme="colored"

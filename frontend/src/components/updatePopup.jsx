@@ -1,12 +1,17 @@
-import { useState } from "react";
-import Spinner from "./spinner";
+import { useState, useContext } from "react";
 import { toast } from "react-toastify";
 import goalsService from "../goalsServices";
+import LoadingContext from "../context/appLoadingContext";
 
-export default function UpdatePopup(props) {
-  const { togglePopup, userGoals, setUserGoals, targetGoal, token } = props;
+export default function UpdatePopup({
+  togglePopup,
+  userGoals,
+  setUserGoals,
+  targetGoal,
+  token,
+}) {
+  const { setLoading } = useContext(LoadingContext);
   const [newGoal, setNewGoal] = useState(userGoals[targetGoal].text);
-  const [loading, setLoading] = useState(false);
   const [validationErr, setvalidationErr] = useState({});
 
   const onSubmit = async (eve) => {
@@ -39,10 +44,6 @@ export default function UpdatePopup(props) {
       setvalidationErr(errors);
     }
   };
-
-  if (loading) {
-    return <Spinner />;
-  }
 
   return (
     <div className="popup-box">

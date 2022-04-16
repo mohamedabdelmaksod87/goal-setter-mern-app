@@ -1,17 +1,17 @@
 import { useState, useEffect, useContext } from "react";
 import GoalForm from "../components/goalForm";
 import goalsService from "../goalsServices";
-import Spinner from "../components/spinner";
 import { toast } from "react-toastify";
 import GoalItem from "../components/goalItem";
 import UpdatePopup from "../components/updatePopup";
 import UserContext from "../context/userContext";
+import LoadingContext from "../context/appLoadingContext";
 
 export default function Dashboard() {
   const { user } = useContext(UserContext);
+  const { setLoading } = useContext(LoadingContext);
   const { token, name } = user;
   const [userGoals, setUserGoals] = useState([]);
-  const [loading, setLoading] = useState(user ? true : false);
   const [isPopup, setIspopup] = useState(false);
   const [targetGoal, setTargetGoal] = useState(null);
 
@@ -32,7 +32,7 @@ export default function Dashboard() {
     } else {
       setUserGoals([]);
     }
-  }, [token]);
+  }, [token, setLoading]);
 
   //Delete Goal Logic
   const deleteGoal = async (goalId) => {
@@ -56,10 +56,6 @@ export default function Dashboard() {
     setIspopup(!isPopup);
     setTargetGoal(goalIndex);
   };
-
-  if (loading) {
-    return <Spinner />;
-  }
 
   return (
     <>

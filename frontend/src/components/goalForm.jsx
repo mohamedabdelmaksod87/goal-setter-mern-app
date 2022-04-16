@@ -1,12 +1,11 @@
-import { useState } from "react";
-import Spinner from "../components/spinner";
+import { useState, useContext } from "react";
 import { toast } from "react-toastify";
 import goalsService from "../goalsServices";
+import LoadingContext from "../context/appLoadingContext";
 
-export default function GoalForm(props) {
-  const { token, userGoals, setUserGoals } = props;
+export default function GoalForm({ token, userGoals, setUserGoals }) {
+  const { setLoading } = useContext(LoadingContext);
   const [goal, setGoal] = useState("");
-  const [loading, setLoading] = useState(false);
   const [validationErr, setvalidationErr] = useState({});
 
   const onSubmit = async (eve) => {
@@ -32,10 +31,6 @@ export default function GoalForm(props) {
       setvalidationErr(errors);
     }
   };
-
-  if (loading) {
-    return <Spinner />;
-  }
 
   return (
     <section className="form">

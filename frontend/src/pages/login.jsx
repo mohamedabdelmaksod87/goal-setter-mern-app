@@ -3,18 +3,18 @@ import { FaSignInAlt } from "react-icons/fa";
 import authService from "../services";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Spinner from "../components/spinner";
 import UserContext from "../context/userContext";
+import LoadingContext from "../context/appLoadingContext";
 
 export default function Login() {
   const { setUser } = useContext(UserContext);
+  const { setLoading } = useContext(LoadingContext);
   const navigate = useNavigate();
   const initialData = {
     email: "",
     password: "",
   };
   const [formData, setFormData] = useState(initialData);
-  const [loading, setLoading] = useState(false);
   const [validationErr, setvalidationErr] = useState({});
   const { email, password } = formData;
 
@@ -31,7 +31,6 @@ export default function Login() {
       eve.preventDefault();
       setLoading(true);
       const userData = await authService.login(formData);
-      setLoading(false);
       setvalidationErr(errors);
       setUser(userData);
       setFormData(initialData);
@@ -48,10 +47,6 @@ export default function Login() {
       setvalidationErr(errors);
     }
   };
-
-  if (loading) {
-    return <Spinner />;
-  }
 
   return (
     <>
