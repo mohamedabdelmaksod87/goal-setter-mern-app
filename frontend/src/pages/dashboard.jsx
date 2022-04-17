@@ -9,7 +9,7 @@ import LoadingContext from "../context/appLoadingContext";
 
 export default function Dashboard() {
   const { user } = useContext(UserContext);
-  const { setLoading } = useContext(LoadingContext);
+  const { loading, setLoading } = useContext(LoadingContext);
   const { token, name } = user;
   const [userGoals, setUserGoals] = useState([]);
   const [isPopup, setIspopup] = useState(false);
@@ -73,7 +73,7 @@ export default function Dashboard() {
             setUserGoals={setUserGoals}
           />
           <section className="content">
-            {userGoals.length > 0 ? (
+            {userGoals.length ? (
               <div className="goals">
                 {userGoals.map((goal, index) => (
                   <GoalItem
@@ -86,7 +86,7 @@ export default function Dashboard() {
                 ))}
               </div>
             ) : (
-              <h3>You have not set any goals</h3>
+              !loading && <h3>You have not set any goals</h3>
             )}
           </section>
           {isPopup && (
